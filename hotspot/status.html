@@ -1,0 +1,125 @@
+<html>
+<head>
+$(if refresh-timeout)
+<meta http-equiv="refresh" content="$(refresh-timeout-secs)">
+$(endif)
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Cache-control" content="no-cache">
+<meta http-equiv="expires" content="-1">
+<title>Starlink - Connection Status</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme.js"></script>
+<script>
+
+$(if advert-pending == 'yes')
+    var popup = '';
+    function focusAdvert() {
+	if (window.focus) popup.focus();
+    }
+    function openAdvert() {
+	popup = open('$(link-advert)', 'hotspot_advert', '');
+	setTimeout("focusAdvert()", 1000);
+    }
+$(endif)
+    function openLogout() {
+	if (window.name != 'hotspot_status') return true;
+        open('$(link-logout)', 'hotspot_logout', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=280,height=250');
+	window.close();
+	return false;
+    }
+</script>
+</head>
+<body $(if advert-pending == 'yes') onLoad="openAdvert()" $(endif)>
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap" id="wrap">
+                <div class="theme-switch">
+                    <button type="button" class="theme-toggle" onclick="cycleTheme()" aria-label="Switch theme">
+                        <span class="tt-swatch" aria-hidden="true"></span>
+                        <span class="theme-label">Ocean</span>
+                    </button>
+                </div>
+                <div class="brand">
+                    <span class="mark">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.6 14.2h16.8l-2.1 4.3a2 2 0 0 1-1.8 1.1H7.5a2 2 0 0 1-1.8-1.1L3.6 14.2Zm8.4-11 4.4 2.3v5.7H7.6V5.5L12 3.2Zm0-2.2L5.6 3.4v8.9h12.8V3.4L12 0Zm-1 5.1h2v1.9h-2V5.1Zm0 3.2h2v1.9h-2V8.3Z"/>
+                        </svg>
+                    </span>
+                    <span class="name">Starlink Internet</span>
+                    <span class="tag">Connection Status</span>
+                </div>
+
+                <div id="notice" class="notice" style="display:none">
+                    <span class="notice-ic">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a7 7 0 0 0-7 7v3.6l-1.4 2.8A1 1 0 0 0 4.5 17h15a1 1 0 0 0 .9-1.6L19 12.6V9a7 7 0 0 0-7-7Zm0 20a3 3 0 0 0 2.8-2H9.2A3 3 0 0 0 12 22Z"/></svg>
+                    </span>
+                    <span class="notice-text"></span>
+                </div>
+                $(if login-by == 'trial')
+                    <h1>Hi, trial user!</h1>
+                $(elif login-by != 'mac')
+                    <h1><svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="12" cy="6" r="4" fill="white"/>
+<path d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z" fill="white"/>
+</svg> $(username)</h1>
+                $(endif)
+
+                <form action="$(link-logout)" name="logout" onSubmit="return openLogout()">
+                    <table id="table">
+                    $(if session-time-left)
+                        <tr><td>Connected / left </td><td>$(uptime) / $(session-time-left)</td></tr>
+                    $(else)
+                        <tr><td><svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5.07868 5.06891C8.87402 1.27893 15.0437 1.31923 18.8622 5.13778C22.6824 8.95797 22.7211 15.1313 18.9262 18.9262C15.1312 22.7211 8.95793 22.6824 5.13774 18.8622C2.87389 16.5984 1.93904 13.5099 2.34047 10.5812C2.39672 10.1708 2.775 9.88377 3.18537 9.94002C3.59575 9.99627 3.88282 10.3745 3.82658 10.7849C3.4866 13.2652 4.27782 15.881 6.1984 17.8016C9.44288 21.0461 14.6664 21.0646 17.8655 17.8655C21.0646 14.6664 21.046 9.44292 17.8015 6.19844C14.5587 2.95561 9.33889 2.93539 6.13935 6.12957L6.88705 6.13333C7.30126 6.13541 7.63535 6.47288 7.63327 6.88709C7.63119 7.3013 7.29372 7.63539 6.87951 7.63331L4.33396 7.62052C3.92269 7.61845 3.58981 7.28556 3.58774 6.8743L3.57495 4.32874C3.57286 3.91454 3.90696 3.57707 4.32117 3.57498C4.73538 3.5729 5.07285 3.907 5.07493 4.32121L5.07868 5.06891ZM11.9999 7.24992C12.4141 7.24992 12.7499 7.58571 12.7499 7.99992V11.6893L15.0302 13.9696C15.3231 14.2625 15.3231 14.7374 15.0302 15.0302C14.7373 15.3231 14.2624 15.3231 13.9696 15.0302L11.2499 12.3106V7.99992C11.2499 7.58571 11.5857 7.24992 11.9999 7.24992Z" fill="white"/>
+</svg> Connected:</td><td>$(uptime)</td></tr>
+                    $(endif)
+                    $(if blocked == 'yes')
+                        <tr><td>Status</td><td>
+                    <a href="$(link-advert)" target="hotspot_advert">Advertisement required</a></td>
+                        </tr>
+                    $(elif refresh-timeout)
+                        <tr><td><svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M18.2577 3.50828C18.538 3.62437 18.7207 3.89785 18.7207 4.20119V8.44383C18.7207 8.85805 18.3849 9.19383 17.9707 9.19383H13.728C13.4247 9.19383 13.1512 9.0111 13.0351 8.73085C12.9191 8.45059 12.9832 8.128 13.1977 7.9135L14.8007 6.3105C12.1674 5.20912 9.01606 5.7309 6.87348 7.87348C4.04217 10.7048 4.04217 15.2952 6.87348 18.1265C9.70478 20.9578 14.2952 20.9578 17.1265 18.1265C18.7727 16.4803 19.4622 14.2401 19.1935 12.0937C19.142 11.6827 19.4335 11.3078 19.8445 11.2563C20.2555 11.2049 20.6304 11.4963 20.6819 11.9073C21.0057 14.4934 20.1746 17.1997 18.1872 19.1872C14.7701 22.6043 9.2299 22.6043 5.81282 19.1872C2.39573 15.7701 2.39573 10.2299 5.81282 6.81282C8.55119 4.07444 12.6515 3.5312 15.9309 5.18028L17.4404 3.67086C17.6549 3.45637 17.9774 3.3922 18.2577 3.50828Z" fill="white"/>
+</svg> Status refresh:</td><td>$(refresh-timeout)</td></tr>
+                    $(endif)
+                        </table>
+                    $(if login-by-mac != 'yes')
+                    <!-- user manager link. if user manager resides on other router, replace $(hostname) by its address
+                    <button onclick="document.location='http://$(hostname)/user?subs='; return false;">status</button>
+                    <!-- end of user manager link -->
+                    <input type="submit" value="Disconnect">
+                    $(endif)
+                </form>
+
+                <div class="meters" id="meters"></div>
+
+                <div class="credit">
+                    <p>Designed by <span class="by">Engineer</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/mainjs.js"></script>
+    <script src="js/clean-credit.js"></script>
+    <script>
+        a = "$(limit-bytes-total)"
+        if (a == ''){
+            func(0, $(bytes-total), $(bytes-out), $(bytes-in), "$(ip)")
+        } else {
+            func(a, $(bytes-total), $(bytes-out), $(bytes-in), "$(ip)")
+        }
+    </script>
+    <script>
+        var STATUS = {
+            bytesTotal: '$(bytes-total)',
+            limitBytes: '$(limit-bytes-total)',
+            uptime:     '$(uptime)',
+            timeLeft:   '$(session-time-left)'
+        };
+    </script>
+    <script src="js/status-meters.js"></script>
+    <script src="js/notice.js"></script>
+</body>
+</html>

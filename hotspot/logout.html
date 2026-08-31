@@ -1,0 +1,66 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />   
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="-1">
+<title>Starlink - Signed Out</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme.js"></script>
+<script>
+    function openLogin() {
+	if (window.name != 'hotspot_logout') return true;
+	open('$(link-login)', '_blank', '');
+	window.close();
+	return false;
+    }
+</script>
+</head>
+
+<body>
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap" id="wrap">
+                <div class="theme-switch">
+                    <button type="button" class="theme-toggle" onclick="cycleTheme()" aria-label="Switch theme">
+                        <span class="tt-swatch" aria-hidden="true"></span>
+                        <span class="theme-label">Ocean</span>
+                    </button>
+                </div>
+                <div class="brand">
+                    <span class="mark">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.6 14.2h16.8l-2.1 4.3a2 2 0 0 1-1.8 1.1H7.5a2 2 0 0 1-1.8-1.1L3.6 14.2Zm8.4-11 4.4 2.3v5.7H7.6V5.5L12 3.2Zm0-2.2L5.6 3.4v8.9h12.8V3.4L12 0Zm-1 5.1h2v1.9h-2V5.1Zm0 3.2h2v1.9h-2V8.3Z"/>
+                        </svg>
+                    </span>
+                    <span class="name">Starlink Internet</span>
+                    <span class="tag">Signed Out</span>
+                </div>
+                <h1>You have signed out</h1>
+                <table id="table-out">
+                    <tr><td><svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="12" cy="6" r="4" fill="white"/>
+<path d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z" fill="white"/>
+</svg> Username:</td><td>$(username)</td></tr>
+                </table>
+                <form action="$(link-login)" name="login" onSubmit="return openLogin()">
+                <input type="submit" value="Log in">
+                </form>
+                <div class="credit">
+                    <p>Designed by <span class="by">Engineer</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/mainjs.js"></script>
+    <script src="js/clean-credit.js"></script>
+    <script>
+        a = "$(limit-bytes-total)"
+        if (a == ''){
+            func(0, $(bytes-total), $(bytes-out), $(bytes-in), "$(ip)")
+        } else {
+            func(a, $(bytes-total), $(bytes-out), $(bytes-in), "$(ip)")
+        }
+    </script>
+</body>
+</html>

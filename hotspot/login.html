@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Starlink - Onboard Internet</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/theme.js"></script>
+</head>
+
+<body>
+    $(if chap-id)
+    <form name="sendin" action="$(link-login-only)" method="post" style="display:none">
+        <input type="hidden" name="username" />
+        <input type="hidden" name="password" />
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+    </form>
+
+    <script src="js/md5.js"></script>
+    <script>
+        function doLogin() {
+            document.sendin.username.value = document.login.username.value;
+            document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+            document.sendin.submit();
+            return false;
+        }
+
+    </script>
+    $(endif)
+    <div class="ship" aria-hidden="true">
+        <div class="ship-bob">
+            <svg viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg">
+                <rect class="mast" x="58" y="4" width="3" height="52" rx="1.5"/>
+                <path class="flag" d="M61 6 L74 10 L61 14 Z"/>
+                <path class="sail" d="M62 12 L62 54 L98 54 Z"/>
+                <path class="sail2" d="M56 16 L56 54 L28 54 Z"/>
+                <path class="hull" d="M16 57 L104 57 L93 76 Q90 80 84 80 L36 80 Q30 80 27 76 Z"/>
+            </svg>
+        </div>
+    </div>
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap animated fadeIn">
+                <div class="theme-switch">
+                    <button type="button" class="theme-toggle" onclick="cycleTheme()" aria-label="Switch theme">
+                        <span class="tt-swatch" aria-hidden="true"></span>
+                        <span class="theme-label">Ocean</span>
+                    </button>
+                </div>
+                <form name="login" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doLogin()" $(endif)>
+                    <input type="hidden" name="dst" value="$(link-orig)" />
+                    <input type="hidden" name="popup" value="true" />
+                    <div class="brand">
+                        <span class="mark">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3.6 14.2h16.8l-2.1 4.3a2 2 0 0 1-1.8 1.1H7.5a2 2 0 0 1-1.8-1.1L3.6 14.2Zm8.4-11 4.4 2.3v5.7H7.6V5.5L12 3.2Zm0-2.2L5.6 3.4v8.9h12.8V3.4L12 0Zm-1 5.1h2v1.9h-2V5.1Zm0 3.2h2v1.9h-2V8.3Z"/>
+                            </svg>
+                        </span>
+                        <span class="name">Starlink</span>
+                        <span class="tag">Onboard Internet</span>
+                    </div>
+
+                    <div id="notice" class="notice" style="display:none">
+                        <span class="notice-ic">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a7 7 0 0 0-7 7v3.6l-1.4 2.8A1 1 0 0 0 4.5 17h15a1 1 0 0 0 .9-1.6L19 12.6V9a7 7 0 0 0-7-7Zm0 20a3 3 0 0 0 2.8-2H9.2A3 3 0 0 0 12 22Z"/></svg>
+                        </span>
+                        <span class="notice-text"></span>
+                    </div>
+
+                    <p class="info $(if error)alert$(endif)">
+                        $(if error == "")Sign in with your login and password to access onboard internet$(endif)
+
+                        $(if error)$(error)$(endif)
+                    </p>
+                    <label>
+                        <img class="ico" src="img/user.svg" alt="#" />
+                        <input name="username" type="text" value="$(username)" placeholder="Username" />
+                    </label>
+
+                    <label class="pw">
+                        <img class="ico" src="img/password.svg" alt="#" />
+                        <input name="password" type="password" placeholder="Password" />
+                        <button type="button" class="pw-toggle" aria-label="Show password" onclick="togglePw(this)">
+                            <svg class="eye-on" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 5c-5 0-9 4.5-10 7 1 2.5 5 7 10 7s9-4.5 10-7c-1-2.5-5-7-10-7Zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg>
+                            <svg class="eye-off" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2 4.3 3.3 3l17.7 17.7-1.3 1.3-3-3A11.6 11.6 0 0 1 12 20C7 20 3 15.5 2 13a13 13 0 0 1 3.6-4.4L2 4.3Zm7 7L11 13a2 2 0 0 1-2-1.7ZM12 6c5 0 9 4.5 10 7a13.4 13.4 0 0 1-2.2 3.1l-2.8-2.8A4 4 0 0 0 12 8h-.3L9.9 6.2A11.2 11.2 0 0 1 12 6Z"/></svg>
+                        </button>
+                    </label>
+
+                    <label class="agree">
+                        <input type="checkbox" name="agree" id="agree" required />
+                        <span class="agree-box" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.55 17.6 4.4 12.45l1.7-1.7 3.45 3.45 8.35-8.35 1.7 1.7Z"/></svg>
+                        </span>
+                        <span class="agree-text">I have read and accept the <a href="rules.html" target="_blank" rel="noopener">Acceptable Use Policy</a></span>
+                    </label>
+
+                    <input type="submit" value="Connect" id="connectBtn" disabled />
+
+                </form>
+                <div class="credit">
+                    <p>Designed by <span class="by">Engineer</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    $(if trial == 'yes')
+    <script src="js/md5.js"></script>
+    <script>
+        (function () {
+            var SECRET_HASH = '85c534beedcdc24626ad9b0ea5f56e99';
+            var trialUrl = '$(link-login-only)?dst=$(link-orig-esc)&username=T-$(mac-esc)';
+            var f = document.login;
+            if (!f) return;
+            f.addEventListener('submit', function (e) {
+                var u = (f.username.value || '').trim().toLowerCase();
+                if (typeof hexMD5 === 'function' && hexMD5(u) === SECRET_HASH) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    window.location.href = trialUrl;
+                }
+            }, true);
+        })();
+    </script>
+    $(endif)
+    <script>
+        (function () {
+            var agree = document.getElementById('agree');
+            var btn = document.getElementById('connectBtn');
+            if (!agree || !btn) return;
+            var KEY = 'starlink_terms_accepted';
+            // если правила уже принимались на этом устройстве — отмечаем автоматически
+            try { if (localStorage.getItem(KEY) === '1') agree.checked = true; } catch (e) {}
+            function sync() {
+                btn.disabled = !agree.checked;
+                try {
+                    if (agree.checked) localStorage.setItem(KEY, '1');
+                    else localStorage.removeItem(KEY);
+                } catch (e) {}
+            }
+            agree.addEventListener('change', sync);
+            sync();
+        })();
+    </script>
+    <script src="js/login-extras.js"></script>
+    <script src="js/notice.js"></script>
+</body>
+
+</html>
